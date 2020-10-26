@@ -21,6 +21,7 @@ struct AstronautView: View {
 
                     Text(self.astronaut.description)
                         .padding()
+                    Text("Missions")
                 }
             }
         }

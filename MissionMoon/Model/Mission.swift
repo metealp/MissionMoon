@@ -7,6 +7,7 @@
 
 import Foundation
 
+let astronauts: [Astronaut] = Bundle.main.decode("astronauts.json")
 
 struct Mission: Codable, Identifiable {
 
@@ -14,7 +15,7 @@ struct Mission: Codable, Identifiable {
         let name: String
         let role: String
     }
-
+    
     let id: Int
     let launchDate: Date?
     let crew: [CrewRole]
@@ -36,5 +37,19 @@ struct Mission: Codable, Identifiable {
         } else {
             return "N/A"
         }
+    }
+    
+    var crewMembers: [CrewMember] {
+        var matches = [CrewMember]()
+
+        for member in crew {
+            if let match = astronauts.first(where: { $0.id == member.name }) {
+                matches.append(CrewMember(role: member.role, astronaut: match))
+            } else {
+                fatalError("Missing \(member)")
+            }
+        }
+
+        return matches
     }
 }
